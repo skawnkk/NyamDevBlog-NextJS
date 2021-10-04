@@ -13,4 +13,9 @@ yarn dev
 
 ## Deploy on Vercel
 
-▶https://nyam-dev-blog-next-js.vercel.app/
+▶ https://nyam-dev-blog-next-js.vercel.app/
+
+
+## Study on Blog
+
+▶ [SSG & SSR](https://prod.velog.io/@skawnkk/Next.js-pre-rendering%EB%B0%A9%EC%8B%9D-SSG%EC%99%80-SSR)
