@@ -14,3 +14,11 @@ export const usersControllerGetUserParams = zod.object({
   "id": zod.number()
 })
 
+export const usersControllerUpdateUserParams = zod.object({
+  "id": zod.number()
+})
+
+export const usersControllerUpdateUserBody = zod.object({
+
+})
+

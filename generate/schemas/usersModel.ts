@@ -10,6 +10,7 @@ import type { UsersModelRole } from './usersModelRole';
 import type { PostsModel } from './postsModel';
 import type { ChatsModel } from './chatsModel';
 import type { MessagesModel } from './messagesModel';
+import type { ImageModel } from './imageModel';
 
 export interface UsersModel {
   /** PK ID */
@@ -34,4 +35,6 @@ export interface UsersModel {
   chats: ChatsModel[];
   /** 작성한 메시지 목록 */
   messages: MessagesModel[];
+  /** 프로필 사진 */
+  image: ImageModel;
 }

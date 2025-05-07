@@ -46,9 +46,20 @@ export const postsControllerGetPostsResponse = zod.object({
   "id": zod.number().describe('PK ID'),
   "createdAt": zod.string().datetime({}).describe('생성일시'),
   "updatedAt": zod.string().datetime({}).describe('수정일시')
-})).describe('작성한 메시지 목록')
+})).describe('작성한 메시지 목록'),
+  "image": zod.object({
+  "id": zod.number().describe('PK ID'),
+  "createdAt": zod.string().datetime({}).describe('생성일시'),
+  "updatedAt": zod.string().datetime({}).describe('수정일시'),
+  "order": zod.number().optional().describe('이미지 순서 (default: 0)'),
+  "type": zod.literal(0).or(zod.literal(1)).describe('이미지 타입'),
+  "path": zod.string().describe('이미지 경로 (POST_IMAGE 타입이면 자동으로 경로 Prefix 추가)'),
+  "post": zod.any().optional().describe('이미지가 소속된 게시물'),
+  "user": zod.any().optional().describe('이미지가 소속된 프로필')
+}).describe('프로필 사진')
 }),
   "title": zod.string(),
+  "subTitle": zod.string().optional(),
   "content": zod.string(),
   "likeCount": zod.number(),
   "commentCount": zod.number(),

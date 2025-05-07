@@ -6,19 +6,27 @@
  * OpenAPI spec version: 1.0
  */
 import {
+  useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
+  MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
+
+import type {
+  UpdateUserProfileDto
+} from '../../schemas';
 
 import { axiosInstance } from '../../../orval.axios';
 
@@ -191,3 +199,62 @@ export function useUsersControllerGetUser<TData = Awaited<ReturnType<typeof user
 
 
 
+export const usersControllerUpdateUser = (
+    id: number,
+    updateUserProfileDto: UpdateUserProfileDto,
+ ) => {
+      
+      
+      return axiosInstance<void>(
+      {url: `/users/${id}`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: updateUserProfileDto
+    },
+      );
+    }
+  
+
+
+export const getUsersControllerUpdateUserMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof usersControllerUpdateUser>>, TError,{id: number;data: UpdateUserProfileDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof usersControllerUpdateUser>>, TError,{id: number;data: UpdateUserProfileDto}, TContext> => {
+
+const mutationKey = ['usersControllerUpdateUser'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof usersControllerUpdateUser>>, {id: number;data: UpdateUserProfileDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  usersControllerUpdateUser(id,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UsersControllerUpdateUserMutationResult = NonNullable<Awaited<ReturnType<typeof usersControllerUpdateUser>>>
+    export type UsersControllerUpdateUserMutationBody = UpdateUserProfileDto
+    export type UsersControllerUpdateUserMutationError = unknown
+
+    export const useUsersControllerUpdateUser = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof usersControllerUpdateUser>>, TError,{id: number;data: UpdateUserProfileDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof usersControllerUpdateUser>>,
+        TError,
+        {id: number;data: UpdateUserProfileDto},
+        TContext
+      > => {
+
+      const mutationOptions = getUsersControllerUpdateUserMutationOptions(options);
+
+      return useMutation(mutationOptions , queryClient);
+    }
+    

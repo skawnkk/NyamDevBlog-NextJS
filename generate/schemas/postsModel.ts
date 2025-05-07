@@ -16,6 +16,7 @@ export interface PostsModel {
   updatedAt: string;
   author: UsersModel;
   title: string;
+  subTitle?: string;
   content: string;
   likeCount: number;
   commentCount: number;
