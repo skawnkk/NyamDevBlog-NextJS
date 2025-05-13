@@ -1,0 +1,42 @@
+import type { Metadata, Viewport } from 'next';
+import { Manrope } from 'next/font/google';
+import { QueryProvider } from './providers/query-provider';
+import { Theme } from '@radix-ui/themes';
+import './globals.css';
+import { ReactNode } from 'react';
+import BottomNavigation from '@/components/navigation';
+
+export const metadata: Metadata = {
+  title: 'Sabujak',
+  description: 'sabujak sabujak anything...:)',
+};
+
+export const viewport: Viewport = {
+  maximumScale: 1,
+};
+
+const manrope = Manrope({ subsets: ['latin'] });
+
+interface RootLayoutProps {
+  children: ReactNode;
+  modal: ReactNode;
+}
+
+export default function RootLayout({ children, modal }: RootLayoutProps) {
+  return (
+    <html
+      lang="en"
+      className={`bg-white dark:bg-gray-950 text-black dark:text-white ${manrope.className}`}
+    >
+      <body className="min-h-[100dvh] bg-gray-50">
+        <Theme>
+          <QueryProvider>
+            <div className="h-screen p-4 pb-0">{children}</div>
+            {modal}
+            <BottomNavigation />
+          </QueryProvider>
+        </Theme>
+      </body>
+    </html>
+  );
+}
