@@ -31,7 +31,9 @@ export default function RootLayout({ children, modal }: RootLayoutProps) {
       <body className="min-h-[100dvh] bg-gray-50">
         <Theme>
           <QueryProvider>
-            <div className="h-screen p-4 pb-0">{children}</div>
+            <div className="relative h-[calc(100vh - 65px)] w-full">
+              <div className="p-4 pb-[65px] w-full">{children}</div>
+            </div>
             {modal}
             <BottomNavigation />
           </QueryProvider>
