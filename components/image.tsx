@@ -1,39 +1,41 @@
 'use client';
 
-import { cn } from '@/lib/utils/cn';
 import Image, { ImageProps } from 'next/image';
-import { useState } from 'react';
+import { cn } from '@/lib/utils/cn';
+import { useState, useCallback } from 'react';
 
 export interface BasicImageProps extends Omit<ImageProps, 'src'> {
   src?: string;
 }
 
-function BasicImage({
+export function BasicImage({
   src,
-  className,
   alt,
+  className,
   width,
   height,
   ...props
 }: BasicImageProps) {
-  const defaultImageUrl = `https://picsum.photos/seed/nature1/${width}/${height}`;
-  console.log('src', src);
-  const [defaultImage, setDefaultImage] = useState(src ?? defaultImageUrl);
+  const hasFixedSize = width && height;
+  const fallbackSrc = `https://picsum.photos/seed/fallback/${width || 300}/${
+    height || 300
+  }`;
 
-  const hasSizeProperties = width && height;
+  const [currentSrc, setCurrentSrc] = useState(src || fallbackSrc);
 
-  const handleError = (e) => {
-    setDefaultImage(defaultImageUrl);
-    console.error(e);
-  };
+  const handleError = useCallback(() => {
+    if (currentSrc !== fallbackSrc) {
+      setCurrentSrc(fallbackSrc);
+    }
+  }, [currentSrc, fallbackSrc]);
 
-  if (!hasSizeProperties) {
+  if (!hasFixedSize) {
     return (
       <div className="relative">
         <Image
-          src={defaultImage}
-          className={className}
+          src={currentSrc}
           alt={alt}
+          className={cn(className)}
           fill
           onError={handleError}
           {...props}
@@ -44,9 +46,9 @@ function BasicImage({
 
   return (
     <Image
-      src={defaultImage}
-      className={cn(className)}
+      src={currentSrc}
       alt={alt}
+      className={cn(className)}
       width={width}
       height={height}
       onError={handleError}
@@ -54,5 +56,3 @@ function BasicImage({
     />
   );
 }
-
-export { BasicImage };
