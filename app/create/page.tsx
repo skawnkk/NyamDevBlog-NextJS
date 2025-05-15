@@ -6,6 +6,7 @@ import { Button } from '@/styles/components/ui/button';
 import { TextArea } from '@radix-ui/themes';
 import { usePostsControllerPostPosts } from 'generate/apis/posts/posts';
 import { atom, useAtom } from 'jotai';
+import { useRouter } from 'next/navigation';
 import { ChangeEvent } from 'react';
 
 const files = atom<DragDropItem[]>([]);
@@ -13,6 +14,7 @@ const contents = atom<string>('');
 const title = atom<string>('');
 
 export default function CreatePage() {
+  const router = useRouter();
   const [postFiles, setPostFiles] = useAtom(files);
   const [postContents, setPostContents] = useAtom(contents);
   const [postTitle, setPostTitle] = useAtom(title);
@@ -28,18 +30,21 @@ export default function CreatePage() {
   };
 
   const handleSubmit = () => {
-    mutate({
-      data: {
-        images: postFiles.map((post) => post.fileName),
-        title: postTitle,
-        content: postContents,
+    mutate(
+      {
+        data: {
+          images: postFiles.map((post) => post.fileName),
+          title: postTitle,
+          content: postContents,
+        },
       },
-    });
+      { onSuccess: () => router.push('/posts') }
+    );
   };
 
   return (
     <div className="h-full flex flex-col content-center gap-10">
-      <FileUploader onChange={setPostFiles} />
+      <FileUploader files={postFiles} onChange={setPostFiles} />
       <Input
         value={postTitle}
         onChange={handleTitle}
