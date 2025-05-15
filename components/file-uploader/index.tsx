@@ -37,40 +37,29 @@ const FileUploaderTrigger = ({
   ref,
   onUploadClick,
 }: PropsWithChildren<FileUploaderTriggerProps>) => {
-  const { mutate } = useCommonControllerPostImage();
+  const { mutateAsync } = useCommonControllerPostImage();
 
   const onInputChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
+    async (event: ChangeEvent<HTMLInputElement>) => {
       const addedFiles = Array.from(event.target.files ?? []);
       const uploadedFiles: DragDropItem[] = [];
 
-      let completed = 0;
+      await Promise.all(
+        addedFiles.map(async (file) => {
+          const res = await mutateAsync({ data: { image: file } });
+          uploadedFiles.push({
+            id: `${file.name}_(${file.lastModified})`,
+            file,
+            isFocused: false,
+            fileName: res.fileName || '',
+          });
+        })
+      );
 
-      for (const file of addedFiles) {
-        mutate(
-          { data: { image: file } },
-          {
-            onSuccess: (res: { fileName: string }) => {
-              uploadedFiles.push({
-                id: `${file.name}_(${file.lastModified})`,
-                file,
-                isFocused: false,
-                fileName: res.fileName,
-              });
-
-              completed++;
-
-              if (completed === addedFiles.length) {
-                onAddFiles(uploadedFiles);
-              }
-            },
-          }
-        );
-      }
-
+      onAddFiles(uploadedFiles);
       event.target.value = '';
     },
-    [mutate, onAddFiles]
+    [mutateAsync, onAddFiles]
   );
 
   return (
@@ -95,11 +84,15 @@ const FileUploaderTrigger = ({
 };
 
 interface FileUploaderProps {
+  files: DragDropItem[];
   onChange?: (files: DragDropItem[]) => void;
 }
-export const FileUploader = ({ onChange }: FileUploaderProps) => {
+export const FileUploader = ({
+  files: initialFiles,
+  onChange,
+}: FileUploaderProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [files, setFiles] = useState<DragDropItem[]>([]);
+  const [files, setFiles] = useState<DragDropItem[]>(initialFiles);
   const scrollToIndex = files.findIndex(({ isFocused }) => isFocused);
 
   const handleChange = (files: DragDropItem[]) => {
