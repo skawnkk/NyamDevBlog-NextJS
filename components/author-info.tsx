@@ -1,22 +1,22 @@
 import { Avatar } from '@radix-ui/themes';
-import { UsersModel } from 'generate/schemas';
 
 interface AuthorInfoProps {
-  info?: UsersModel;
+  nickname?: string;
+  image?: string;
+  onlyImage?: boolean;
 }
-export function AuthorInfo({ info }: AuthorInfoProps) {
-  const profileUrl = info?.image?.path
-    ? `${process.env.NEXT_PUBLIC_API_URL}${info?.image?.path}`
-    : '';
+
+export function AuthorInfo({ image, nickname }: AuthorInfoProps) {
+  const profileUrl = image ? `${process.env.NEXT_PUBLIC_API_URL}${image}` : '';
 
   return (
     <div className="flex items-center gap-2">
       <Avatar
         radius="full"
         src={profileUrl}
-        fallback={info?.nickname.slice(0, 2) || '-'}
+        fallback={nickname?.slice(0, 2) || '-'}
       />
-      <p>{info?.nickname}</p>
+      {nickname && <p>{nickname}</p>}
     </div>
   );
 }

@@ -40,7 +40,7 @@ export default function Post({ data }: PostProps) {
           />
         </CardContent>
         <CardFooter className={`flex justify-between items-center`}>
-          <AuthorInfo info={author} />
+          <AuthorInfo nickname={author.nickname} image={author.image.path} />
           <HeartIcon />
           {/* {likeCount ? <HeartIcon /> : <HeartFilledIcon />} */}
           {/* 당사자가 like를 눌렀는지 */}
