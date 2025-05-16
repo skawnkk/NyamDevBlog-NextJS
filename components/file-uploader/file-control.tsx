@@ -1,10 +1,12 @@
 import { LayersIcon, PlusCircledIcon } from '@radix-ui/react-icons';
-import { useToggleDialog } from '@/lib/utils/toggle-dialog';
-import { useOutsideClick } from '@/lib/utils/outside-click';
+
 import { cn } from '@/lib/utils/cn';
+import { useOutsideClick } from '@/lib/utils/outside-click';
+import { useToggleDialog } from '@/lib/utils/toggle-dialog';
+
 import { DragDrop } from '../drag-drop';
-import { DragDropItem } from './index';
 import { FilePreviewImage } from './file-preview-image';
+import { DragDropItem } from './index';
 
 interface FileControlProps {
   items: DragDropItem[];
@@ -12,11 +14,7 @@ interface FileControlProps {
   onUploadClick: () => void;
 }
 
-export const FileControl = ({
-  items,
-  onChange,
-  onUploadClick,
-}: FileControlProps) => {
+export const FileControl = ({ items, onChange, onUploadClick }: FileControlProps) => {
   const { open, toggleOpen } = useToggleDialog({ defaultOpen: false });
   const ref = useOutsideClick<HTMLDivElement>(toggleOpen, open);
 
@@ -35,11 +33,7 @@ export const FileControl = ({
       >
         <div className={'w-full overflow-x-auto whitespace-nowrap'}>
           <div className="inline-flex gap-2 items-center h-[120px] px-2">
-            <DragDrop
-              items={items}
-              onReorder={onChange}
-              Comp={FilePreviewImage}
-            />
+            <DragDrop items={items} onReorder={onChange} Comp={FilePreviewImage} />
           </div>
         </div>
         <button aria-label="Add" onClick={onUploadClick}>

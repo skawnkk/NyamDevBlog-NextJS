@@ -6,7 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface CreateCommentDto {
-  /** 댓글 본문 */
-  comments: string;
+export interface AccessTokenDto {
+  accessToekn: string;
 }

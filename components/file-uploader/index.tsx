@@ -1,20 +1,15 @@
 'use client';
 
-import { BasicCarousel } from '@/components/carousel';
-import { Button } from '@/styles/components/ui/button';
 import { Card } from '@radix-ui/themes';
-import {
-  ChangeEvent,
-  PropsWithChildren,
-  RefObject,
-  useCallback,
-  useRef,
-  useState,
-} from 'react';
-import { PreviewImage } from '../preview-image';
-import { cn } from '@/lib/utils/cn';
-import { FileControl } from './file-control';
 import { useCommonControllerPostImage } from 'generate/apis/common/common';
+import { ChangeEvent, PropsWithChildren, RefObject, useCallback, useRef, useState } from 'react';
+
+import { BasicCarousel } from '@/components/carousel';
+import { cn } from '@/lib/utils/cn';
+import { Button } from '@/styles/components/ui/button';
+
+import { PreviewImage } from '../preview-image';
+import { FileControl } from './file-control';
 
 export type DragDropItem = {
   id: string;
@@ -45,7 +40,7 @@ const FileUploaderTrigger = ({
       const uploadedFiles: DragDropItem[] = [];
 
       await Promise.all(
-        addedFiles.map(async (file) => {
+        addedFiles.map(async file => {
           const res = await mutateAsync({ data: { image: file } });
           uploadedFiles.push({
             id: `${file.name}_(${file.lastModified})`,
@@ -53,20 +48,17 @@ const FileUploaderTrigger = ({
             isFocused: false,
             fileName: res.fileName || '',
           });
-        })
+        }),
       );
 
       onAddFiles(uploadedFiles);
       event.target.value = '';
     },
-    [mutateAsync, onAddFiles]
+    [mutateAsync, onAddFiles],
   );
 
   return (
-    <label
-      htmlFor="post"
-      className={cn([files.length && 'hidden', 'cursor-pointer'])}
-    >
+    <label htmlFor="post" className={cn([files.length && 'hidden', 'cursor-pointer'])}>
       <input
         ref={ref}
         className="sr-only"
@@ -87,10 +79,7 @@ interface FileUploaderProps {
   files: DragDropItem[];
   onChange?: (files: DragDropItem[]) => void;
 }
-export const FileUploader = ({
-  files: initialFiles,
-  onChange,
-}: FileUploaderProps) => {
+export const FileUploader = ({ files: initialFiles, onChange }: FileUploaderProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [files, setFiles] = useState<DragDropItem[]>(initialFiles);
   const scrollToIndex = files.findIndex(({ isFocused }) => isFocused);
@@ -142,11 +131,7 @@ export const FileUploader = ({
           </BasicCarousel>
         </div>
       )}
-      <FileControl
-        items={files}
-        onChange={onChangeFiles}
-        onUploadClick={onUploadClick}
-      />
+      <FileControl items={files} onChange={onChangeFiles} onUploadClick={onUploadClick} />
     </div>
   );
 };

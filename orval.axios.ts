@@ -16,6 +16,7 @@ instance.interceptors.request.use(
       config.headers = config.headers || {};
       config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
   },
   (error) => {
@@ -29,11 +30,28 @@ instance.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       console.error('401 에러 - 인증 만료 또는 로그인 필요');
-      // 👉 여기서 토큰 리프레시 로직을 넣거나
-      // 👉 아니면 바로 로그아웃 처리를 해도 됩니다.
-      // 예: window.location.href = '/login';
+
+      try {
+        //✅ 리프레시 요청 (쿠키로 refreshToken 전송됨)
+        const response = await instance.post('/auth/token/accessToken');
+        const { data } = response;
+        const newAccessToken = data.accessToken;
+        localStorage.setItem('accessToken', newAccessToken);
+
+        instance.defaults.headers.common[
+          'Authorization'
+        ] = `Bearer ${newAccessToken}`;
+
+        const originalRequest = error.config;
+
+        return instance(originalRequest);
+      } catch (refreshError) {
+        console.error('리프레시 토큰 실패', refreshError);
+        // 예: 로그아웃 처리
+        window.location.href = '/sign-in';
+        return Promise.reject(refreshError);
+      }
     }
-    return Promise.reject(error);
   }
 );
 

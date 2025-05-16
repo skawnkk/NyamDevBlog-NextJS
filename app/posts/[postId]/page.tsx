@@ -1,25 +1,34 @@
 'use client';
 
+import { ChatBubbleIcon } from '@radix-ui/react-icons';
+import { usePostsControllerGetPost } from 'generate/apis/posts/posts';
+import { useParams } from 'next/navigation';
+
 import { AuthorInfo } from '@/components/author-info';
 import { BottomSheet } from '@/components/bottom-sheet';
 import { BasicCarousel } from '@/components/carousel';
 import { BasicImage } from '@/components/image';
 import { POST_HEIGHT, POST_WIDTH } from '@/lib/const';
-import { ChatBubbleIcon } from '@radix-ui/react-icons';
-import { usePostsControllerGetPost } from 'generate/apis/posts/posts';
-import { useParams } from 'next/navigation';
-import { CommentList } from './comment-list';
+
+import { useInfiniteComments } from './action';
 import { CommentInput } from './comment-input';
+import { CommentList } from './comment-list';
 
 export default function PostDetailPage() {
-  console.log('page');
-
   const { postId } = useParams<{ postId: string }>();
 
   const { data: { createdAt, content, title, subTitle, author, images } = {} } =
-    usePostsControllerGetPost(Number(postId), {
+    usePostsControllerGetPost(+postId, {
       query: { enabled: !!postId },
     });
+
+  const { refetch } = useInfiniteComments(+postId, {
+    take: 20,
+  });
+
+  const handleSubmit = () => {
+    refetch();
+  };
 
   return (
     <div>
@@ -42,11 +51,7 @@ export default function PostDetailPage() {
           width={POST_WIDTH}
           height={POST_HEIGHT}
           alt={`${'test'}_random`}
-          src={
-            images?.[0]?.path
-              ? `${process.env.NEXT_PUBLIC_API_URL}${images?.[0]?.path}`
-              : ''
-          }
+          src={images?.[0]?.path ? `${process.env.NEXT_PUBLIC_API_URL}${images?.[0]?.path}` : ''}
         />
       )}
       <div>
@@ -54,7 +59,7 @@ export default function PostDetailPage() {
         <BottomSheet
           header={<div className="flex justify-center">댓글</div>}
           content={<CommentList postId={postId} />}
-          bottom={<CommentInput postId={postId} />}
+          bottom={<CommentInput postId={postId} onSubmit={handleSubmit} />}
         >
           <ChatBubbleIcon />
         </BottomSheet>

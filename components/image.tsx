@@ -1,25 +1,17 @@
 'use client';
 
 import Image, { ImageProps } from 'next/image';
+import { useCallback, useState } from 'react';
+
 import { cn } from '@/lib/utils/cn';
-import { useState, useCallback } from 'react';
 
 export interface BasicImageProps extends Omit<ImageProps, 'src'> {
   src?: string;
 }
 
-export function BasicImage({
-  src,
-  alt,
-  className,
-  width,
-  height,
-  ...props
-}: BasicImageProps) {
+export function BasicImage({ src, alt, className, width, height, ...props }: BasicImageProps) {
   const hasFixedSize = width && height;
-  const fallbackSrc = `https://picsum.photos/seed/fallback/${width || 300}/${
-    height || 300
-  }`;
+  const fallbackSrc = `https://picsum.photos/seed/fallback/${width || 300}/${height || 300}`;
 
   const [currentSrc, setCurrentSrc] = useState(src || fallbackSrc);
 

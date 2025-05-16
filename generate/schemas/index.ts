@@ -6,11 +6,18 @@
  * OpenAPI spec version: 1.0
  */
 
+export * from './accessTokenDto';
 export * from './chatMessagesControllerPaginateMessagesParams';
 export * from './chatsControllerPaginateChatParams';
 export * from './chatsModel';
+export * from './commentAuthorDto';
+export * from './commentAuthorDtoImage';
+export * from './commentDto';
+export * from './commentDtoAuthor';
 export * from './commentModel';
 export * from './commentsControllerPaginateCommentsParams';
+export * from './commentsPaginateResponseDto';
+export * from './commentsPaginateResponseDtoCursor';
 export * from './commonControllerPostImage200';
 export * from './commonControllerPostImageBody';
 export * from './createChatsMessageDto';

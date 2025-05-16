@@ -1,39 +1,52 @@
 'use client';
 
-import { useActionState, useEffect } from 'react';
+import { CircleIcon, Loader2 } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useActionState, useEffect, useState } from 'react';
+
 import { Input } from '@/components/input';
 import { Label } from '@/components/label';
-import { CircleIcon, Loader2 } from 'lucide-react';
-import { signIn, signUp } from './actions';
 import { ActionState } from '@/lib/utils/middleware';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { Button } from '@/styles/components/ui/button';
+
+import { signIn, signUp } from './actions';
 
 interface LoginFormProps {
   mode: 'signin' | 'signup';
+  callback: ({ email, password }: any) => void;
 }
-export function LoginForm({ mode }: LoginFormProps) {
+export function LoginForm({ mode, callback }: LoginFormProps) {
   const router = useRouter();
   const isSignUpMode = mode === 'signup';
   const signText = isSignUpMode ? '가입하기' : '로그인하기';
 
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
     isSignUpMode ? signUp : signIn,
-    { error: '' }
+    { error: '' },
   );
 
-  useEffect(() => {
-    if (state?.redirectTo) {
-      router.push(state.redirectTo);
-    }
-  }, [state, router]);
+  // useEffect(() => {
+  //   if (state?.redirectTo) {
+  //     router.push(state.redirectTo);
+  //   }
+  // }, [state, router]);
 
-  useEffect(() => {
-    if (state?.accessToken) {
-      localStorage.setItem('accessToken', state.accessToken);
-    }
-  }, [state]);
+  // useEffect(() => {
+  //   if (state?.accessToken) {
+  //     localStorage.setItem('accessToken', state.accessToken);
+  //   }
+  // }, [state]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const nickname = formData.get('nickname');
+    const email = formData.get('email');
+    const password = formData.get('password');
+
+    isSignUpMode ? signUp : callback({ email, password });
+  };
 
   return (
     <div className="min-h-[100dvh] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
@@ -41,22 +54,17 @@ export function LoginForm({ mode }: LoginFormProps) {
         <div className="flex justify-center">
           <CircleIcon className="h-12 w-12 text-orange-500" />
         </div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          {signText}
-        </h2>
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">{signText}</h2>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <form className="space-y-6" action={formAction}>
+        <form className="space-y-6" onSubmit={handleSubmit}>
           {/* <input type="hidden" name="redirect" value={redirect || ''} />
           <input type="hidden" name="priceId" value={priceId || ''} />
           <input type="hidden" name="inviteId" value={inviteId || ''} /> */}
           {isSignUpMode && (
             <div>
-              <Label
-                htmlFor="nickname"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <Label htmlFor="nickname" className="block text-sm font-medium text-gray-700">
                 Nickname
               </Label>
 
@@ -76,10 +84,7 @@ export function LoginForm({ mode }: LoginFormProps) {
             </div>
           )}
           <div>
-            <Label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <Label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email
             </Label>
             <div className="mt-1">
@@ -98,10 +103,7 @@ export function LoginForm({ mode }: LoginFormProps) {
           </div>
 
           <div>
-            <Label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <Label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password
             </Label>
             <div className="mt-1">
@@ -120,9 +122,7 @@ export function LoginForm({ mode }: LoginFormProps) {
             </div>
           </div>
 
-          {state?.error && (
-            <div className="text-red-500 text-sm">{state.error}</div>
-          )}
+          {state?.error && <div className="text-red-500 text-sm">{state.error}</div>}
 
           <div>
             <Button
@@ -154,9 +154,7 @@ export function LoginForm({ mode }: LoginFormProps) {
                 // }${priceId ? `&priceId=${priceId}` : ''}`}
                 className="px-2 bg-gray-50 text-gray-500"
               >
-                {isSignUpMode
-                  ? 'Already have an account?'
-                  : 'Create an account'}
+                {isSignUpMode ? 'Already have an account?' : 'Create an account'}
               </Link>
             </div>
           </div>

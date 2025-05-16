@@ -7,7 +7,7 @@ import {
 
 export const useInfiniteComments = (
   postId: number,
-  initialParams: Omit<CommentsControllerPaginateCommentsParams, 'page'>
+  initialParams: Omit<CommentsControllerPaginateCommentsParams, 'page'>,
 ) => {
   return useInfiniteQuery<CommentsPaginateResponseDto>({
     queryKey: ['postsControllerGetPosts', initialParams],
@@ -18,7 +18,7 @@ export const useInfiniteComments = (
       });
     },
     initialPageParam: undefined,
-    getNextPageParam: (lastPage) => {
+    getNextPageParam: lastPage => {
       return lastPage.cursor?.after ?? undefined;
     },
   });

@@ -1,6 +1,7 @@
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
-import { DragDropItem } from './file-uploader';
 import { ComponentType } from 'react';
+
+import { DragDropItem } from './file-uploader';
 
 export type DragDropItemProps = {
   item: DragDropItem;
@@ -11,15 +12,13 @@ export type DragDropItemProps = {
 interface DragDropProps {
   items: DragDropItem[];
   onReorder: (file: DragDropItem[]) => void;
-  onFocus: (file: DragDropItem[]) => void;
-
   Comp: ComponentType<DragDropItemProps>;
 }
 
 export const DragDrop = ({ items, onReorder, Comp }: DragDropProps) => {
   const listDefaultStyle = `flex flex-nowrap gap-2 items-center p-2 h-[120px]`;
 
-  const handleDragEnd = (result) => {
+  const handleDragEnd = result => {
     if (items.length <= 1 || !result) {
       return;
     }
@@ -31,7 +30,7 @@ export const DragDrop = ({ items, onReorder, Comp }: DragDropProps) => {
       return;
     }
 
-    const draggableItems = [...items].map((item) => ({
+    const draggableItems = [...items].map(item => ({
       ...item,
       isFocused: false,
     }));
@@ -47,19 +46,15 @@ export const DragDrop = ({ items, onReorder, Comp }: DragDropProps) => {
 
   const onRemove = (itemToRemove: DragDropItem) => {
     const itemsAray = [...items];
-    const indexToRemove = itemsAray.findIndex(
-      (item) => item.id === itemToRemove.id
-    );
+    const indexToRemove = itemsAray.findIndex(item => item.id === itemToRemove.id);
 
     itemsAray.splice(indexToRemove, 1);
 
-    onReorder(
-      itemsAray.map((item, index) => ({ ...item, isFocused: index === 0 }))
-    );
+    onReorder(itemsAray.map((item, index) => ({ ...item, isFocused: index === 0 })));
   };
 
   const onFocus = (focusedItem: DragDropItem) => {
-    const updatedItems = [...items].map((item) => {
+    const updatedItems = [...items].map(item => {
       if (item.id === focusedItem.id) {
         return { ...focusedItem, isFocused: true };
       }

@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface CreateCommentDto {
-  /** 댓글 본문 */
-  comments: string;
-}
+/**
+ * @nullable
+ */
+export type CommentAuthorDtoImage = { [key: string]: unknown } | null;

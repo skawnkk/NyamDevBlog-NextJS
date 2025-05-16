@@ -26,6 +26,7 @@ import type {
 
 import type {
   CommentsControllerPaginateCommentsParams,
+  CommentsPaginateResponseDto,
   CreateCommentDto
 } from '../../schemas';
 
@@ -38,6 +39,9 @@ type AwaitedInput<T> = PromiseLike<T> | T;
 
 
 
+/**
+ * @summary 댓글 목록 조회
+ */
 export const commentsControllerPaginateComments = (
     postId: number,
     params?: CommentsControllerPaginateCommentsParams,
@@ -45,7 +49,7 @@ export const commentsControllerPaginateComments = (
 ) => {
       
       
-      return axiosInstance<void>(
+      return axiosInstance<CommentsPaginateResponseDto>(
       {url: `/posts/${postId}/comments`, method: 'GET',
         params, signal
     },
@@ -109,6 +113,9 @@ export function useCommentsControllerPaginateComments<TData = Awaited<ReturnType
     params?: CommentsControllerPaginateCommentsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof commentsControllerPaginateComments>>, TError, TData>>, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 댓글 목록 조회
+ */
 
 export function useCommentsControllerPaginateComments<TData = Awaited<ReturnType<typeof commentsControllerPaginateComments>>, TError = unknown>(
  postId: number,
@@ -127,6 +134,9 @@ export function useCommentsControllerPaginateComments<TData = Awaited<ReturnType
 
 
 
+/**
+ * @summary 댓글 생성
+ */
 export const commentsControllerPostComment = (
     postId: number,
     createCommentDto: CreateCommentDto,
@@ -173,7 +183,10 @@ const {mutation: mutationOptions} = options ?
     export type CommentsControllerPostCommentMutationBody = CreateCommentDto
     export type CommentsControllerPostCommentMutationError = unknown
 
-    export const useCommentsControllerPostComment = <TError = unknown,
+    /**
+ * @summary 댓글 생성
+ */
+export const useCommentsControllerPostComment = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof commentsControllerPostComment>>, TError,{postId: number;data: CreateCommentDto}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof commentsControllerPostComment>>,
@@ -186,13 +199,111 @@ const {mutation: mutationOptions} = options ?
 
       return useMutation(mutationOptions , queryClient);
     }
-    export const commentsControllerDeleteComment = (
+    /**
+ * @summary 단일 댓글 조회
+ */
+export const commentsControllerGetComment = (
     postId: number,
+    commentId: number,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<void>(
+      {url: `/posts/${postId}/comments/${commentId}`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getCommentsControllerGetCommentQueryKey = (postId: number,
+    commentId: number,) => {
+    return [`/posts/${postId}/comments/${commentId}`] as const;
+    }
+
+    
+export const getCommentsControllerGetCommentQueryOptions = <TData = Awaited<ReturnType<typeof commentsControllerGetComment>>, TError = unknown>(postId: number,
+    commentId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof commentsControllerGetComment>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCommentsControllerGetCommentQueryKey(postId,commentId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof commentsControllerGetComment>>> = ({ signal }) => commentsControllerGetComment(postId,commentId, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(postId && commentId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof commentsControllerGetComment>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type CommentsControllerGetCommentQueryResult = NonNullable<Awaited<ReturnType<typeof commentsControllerGetComment>>>
+export type CommentsControllerGetCommentQueryError = unknown
+
+
+export function useCommentsControllerGetComment<TData = Awaited<ReturnType<typeof commentsControllerGetComment>>, TError = unknown>(
+ postId: number,
+    commentId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof commentsControllerGetComment>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof commentsControllerGetComment>>,
+          TError,
+          Awaited<ReturnType<typeof commentsControllerGetComment>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCommentsControllerGetComment<TData = Awaited<ReturnType<typeof commentsControllerGetComment>>, TError = unknown>(
+ postId: number,
+    commentId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof commentsControllerGetComment>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof commentsControllerGetComment>>,
+          TError,
+          Awaited<ReturnType<typeof commentsControllerGetComment>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCommentsControllerGetComment<TData = Awaited<ReturnType<typeof commentsControllerGetComment>>, TError = unknown>(
+ postId: number,
+    commentId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof commentsControllerGetComment>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary 단일 댓글 조회
+ */
+
+export function useCommentsControllerGetComment<TData = Awaited<ReturnType<typeof commentsControllerGetComment>>, TError = unknown>(
+ postId: number,
+    commentId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof commentsControllerGetComment>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getCommentsControllerGetCommentQueryOptions(postId,commentId,options)
+
+  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * @summary 댓글 삭제
+ */
+export const commentsControllerDeleteComment = (
+    postId: number,
+    commentId: number,
  ) => {
       
       
       return axiosInstance<void>(
-      {url: `/posts/${postId}/comments`, method: 'DELETE'
+      {url: `/posts/${postId}/comments/${commentId}`, method: 'DELETE'
     },
       );
     }
@@ -200,8 +311,8 @@ const {mutation: mutationOptions} = options ?
 
 
 export const getCommentsControllerDeleteCommentMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof commentsControllerDeleteComment>>, TError,{postId: number}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof commentsControllerDeleteComment>>, TError,{postId: number}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof commentsControllerDeleteComment>>, TError,{postId: number;commentId: number}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof commentsControllerDeleteComment>>, TError,{postId: number;commentId: number}, TContext> => {
 
 const mutationKey = ['commentsControllerDeleteComment'];
 const {mutation: mutationOptions} = options ?
@@ -213,10 +324,10 @@ const {mutation: mutationOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof commentsControllerDeleteComment>>, {postId: number}> = (props) => {
-          const {postId} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof commentsControllerDeleteComment>>, {postId: number;commentId: number}> = (props) => {
+          const {postId,commentId} = props ?? {};
 
-          return  commentsControllerDeleteComment(postId,)
+          return  commentsControllerDeleteComment(postId,commentId,)
         }
 
         
@@ -228,12 +339,15 @@ const {mutation: mutationOptions} = options ?
     
     export type CommentsControllerDeleteCommentMutationError = unknown
 
-    export const useCommentsControllerDeleteComment = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof commentsControllerDeleteComment>>, TError,{postId: number}, TContext>, }
+    /**
+ * @summary 댓글 삭제
+ */
+export const useCommentsControllerDeleteComment = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof commentsControllerDeleteComment>>, TError,{postId: number;commentId: number}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof commentsControllerDeleteComment>>,
         TError,
-        {postId: number},
+        {postId: number;commentId: number},
         TContext
       > => {
 

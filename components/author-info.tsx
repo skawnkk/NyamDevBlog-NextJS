@@ -11,11 +11,7 @@ export function AuthorInfo({ image, nickname }: AuthorInfoProps) {
 
   return (
     <div className="flex items-center gap-2">
-      <Avatar
-        radius="full"
-        src={profileUrl}
-        fallback={nickname?.slice(0, 2) || '-'}
-      />
+      <Avatar radius="full" src={profileUrl} fallback={nickname?.slice(0, 2) || '-'} />
       {nickname && <p>{nickname}</p>}
     </div>
   );

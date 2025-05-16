@@ -1,10 +1,13 @@
+import './globals.css';
+
+import { Theme } from '@radix-ui/themes';
 import type { Metadata, Viewport } from 'next';
 import { Manrope } from 'next/font/google';
-import { QueryProvider } from './providers/query-provider';
-import { Theme } from '@radix-ui/themes';
-import './globals.css';
 import { ReactNode } from 'react';
+
 import BottomNavigation from '@/components/navigation';
+
+import { QueryProvider } from './providers/query-provider';
 
 export const metadata: Metadata = {
   title: 'Sabujak',

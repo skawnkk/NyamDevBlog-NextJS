@@ -10,18 +10,33 @@ import {
 } from 'zod';
 
 
+/**
+ * @summary Access Token 재발급 (헤더로 refresh 토큰 전달)
+ */
 export const authControllerPostTokenAccessHeader = zod.object({
-  "authorization": zod.string()
+  "authorization": zod.string(),
+  "Authorization": zod.string().optional().describe('Bearer {refreshToken}')
 })
 
+/**
+ * @summary Refresh Token 재발급 (쿠키 기반)
+ */
 export const authControllerPostRefreshAccessHeader = zod.object({
-  "authorization": zod.string()
+  "authorization": zod.string(),
+  "Authorization": zod.string().optional().describe('Bearer {refreshToken}')
 })
 
+/**
+ * @summary 이메일 로그인 (accessToken + refreshToken 쿠키로 반환)
+ */
 export const authControllerPostLoginWithEmailHeader = zod.object({
-  "authorization": zod.string()
+  "authorization": zod.string(),
+  "Authorization": zod.string().optional().describe('Basic base64(email:password)')
 })
 
+/**
+ * @summary 이메일 회원가입
+ */
 export const authControllerPostRegisterWithEmailBody = zod.object({
 
 })

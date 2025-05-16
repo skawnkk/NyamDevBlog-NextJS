@@ -5,10 +5,7 @@ interface InfiniteScrollProps {
   hasNextPage: boolean;
 }
 
-export const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
-  loadMore,
-  hasNextPage,
-}) => {
+export const InfiniteScroll: React.FC<InfiniteScrollProps> = ({ loadMore, hasNextPage }) => {
   const observerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -20,7 +17,7 @@ export const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
           loadMore(); // 페이지 더 불러오기
         }
       },
-      { threshold: 1.0 }
+      { threshold: 1.0 },
     );
 
     const currentRef = observerRef.current;

@@ -1,9 +1,10 @@
-import { PostsModel } from 'generate/schemas';
 import { HeartIcon } from '@radix-ui/react-icons';
+import { PostsModel } from 'generate/schemas';
+
+import { AuthorInfo } from '@/components/author-info';
 import { BasicImage } from '@/components/image';
 import { POST_HEIGHT, POST_WIDTH } from '@/lib/const';
 import { useToggleDialog } from '@/lib/utils/toggle-dialog';
-import { AuthorInfo } from '@/components/author-info';
 import {
   Card,
   CardContent,
@@ -32,9 +33,7 @@ export default function Post({ data }: PostProps) {
             width={POST_WIDTH}
             height={POST_HEIGHT}
             src={
-              images.length > 0
-                ? `${process.env.NEXT_PUBLIC_API_URL}${images[0].path}`
-                : undefined
+              images.length > 0 ? `${process.env.NEXT_PUBLIC_API_URL}${images[0].path}` : undefined
             }
             alt={`${title}_random`}
           />

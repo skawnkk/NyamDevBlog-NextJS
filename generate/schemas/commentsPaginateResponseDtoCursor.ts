@@ -5,8 +5,9 @@
  * 사부작 API Description
  * OpenAPI spec version: 1.0
  */
+import type { CursorDto } from './cursorDto';
 
-export interface CreateCommentDto {
-  /** 댓글 본문 */
-  comments: string;
-}
+/**
+ * @nullable
+ */
+export type CommentsPaginateResponseDtoCursor = CursorDto | null;

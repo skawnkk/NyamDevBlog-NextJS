@@ -1,17 +1,11 @@
 import { BasicImage, BasicImageProps } from './image';
 
-interface PreviewImageProps
-  extends Pick<BasicImageProps, 'unoptimized' | 'width' | 'height'> {
+interface PreviewImageProps extends Pick<BasicImageProps, 'unoptimized' | 'width' | 'height'> {
   file: File;
   className?: string;
 }
 
-export const PreviewImage = ({
-  className,
-  file,
-  width,
-  height,
-}: PreviewImageProps) => {
+export const PreviewImage = ({ className, file, width, height }: PreviewImageProps) => {
   return (
     <BasicImage
       className={className}

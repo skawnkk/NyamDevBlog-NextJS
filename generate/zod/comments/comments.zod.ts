@@ -10,6 +10,9 @@ import {
 } from 'zod';
 
 
+/**
+ * @summary 댓글 목록 조회
+ */
 export const commentsControllerPaginateCommentsParams = zod.object({
   "postId": zod.number()
 })
@@ -22,15 +25,53 @@ export const commentsControllerPaginateCommentsQueryParams = zod.object({
   "take": zod.number().optional()
 })
 
+export const commentsControllerPaginateCommentsResponse = zod.object({
+  "data": zod.array(zod.object({
+  "id": zod.number(),
+  "comments": zod.string(),
+  "likeCount": zod.number(),
+  "author": zod.object({
+  "id": zod.number(),
+  "nickname": zod.string(),
+  "image": zod.object({
+
+}).nullable()
+}),
+  "createdAt": zod.string(),
+  "updatedAt": zod.string()
+})),
+  "total": zod.number().optional(),
+  "next": zod.string().nullish(),
+  "count": zod.number().nullish(),
+  "cursor": zod.object({
+  "after": zod.number().nullish()
+}).nullish()
+})
+
+/**
+ * @summary 댓글 생성
+ */
 export const commentsControllerPostCommentParams = zod.object({
   "postId": zod.number()
 })
 
 export const commentsControllerPostCommentBody = zod.object({
-
+  "comments": zod.string().describe('댓글 본문')
 })
 
+/**
+ * @summary 단일 댓글 조회
+ */
+export const commentsControllerGetCommentParams = zod.object({
+  "postId": zod.number(),
+  "commentId": zod.number()
+})
+
+/**
+ * @summary 댓글 삭제
+ */
 export const commentsControllerDeleteCommentParams = zod.object({
-  "postId": zod.number()
+  "postId": zod.number(),
+  "commentId": zod.number()
 })
 

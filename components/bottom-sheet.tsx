@@ -1,3 +1,5 @@
+import { PropsWithChildren, ReactNode } from 'react';
+
 import {
   Sheet,
   SheetContent,
@@ -5,7 +7,6 @@ import {
   SheetHeader,
   SheetTrigger,
 } from '@/styles/components/ui/sheet';
-import { PropsWithChildren, ReactNode } from 'react';
 
 interface BottomSheetProps {
   header?: ReactNode;

@@ -1,5 +1,7 @@
 'use client';
 
+import { PropsWithChildren, ReactNode, useEffect, useState } from 'react';
+
 import { cn } from '@/lib/utils/cn';
 import {
   Carousel,
@@ -9,7 +11,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/styles/components/ui/carousel';
-import { PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 
 interface BasicCarouselProps {
   children: ReactNode | ReactNode[];

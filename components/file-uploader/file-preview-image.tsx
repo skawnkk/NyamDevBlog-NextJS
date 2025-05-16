@@ -1,18 +1,15 @@
 import { Cross2Icon } from '@radix-ui/react-icons';
+import { MouseEvent } from 'react';
+
+import { DragDropItemProps } from '../drag-drop';
 import { BasicImageProps } from '../image';
 import { PreviewImage } from '../preview-image';
-import { DragDropItemProps } from '../drag-drop';
-import { MouseEvent } from 'react';
 
 export interface PreviewImageProps
   extends Pick<BasicImageProps, 'width' | 'height'>,
     DragDropItemProps {}
 
-export const FilePreviewImage = ({
-  item,
-  onRemove,
-  onFocus,
-}: PreviewImageProps) => {
+export const FilePreviewImage = ({ item, onRemove, onFocus }: PreviewImageProps) => {
   const handleRemove = (e: MouseEvent) => {
     e.stopPropagation();
     onRemove(item);

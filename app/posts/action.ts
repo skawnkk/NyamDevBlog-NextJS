@@ -1,13 +1,8 @@
 import { QueryFunctionContext, useInfiniteQuery } from '@tanstack/react-query';
 import { postsControllerGetPosts } from 'generate/apis/posts/posts';
-import {
-  PostsControllerGetPostsParams,
-  PostsPaginateResponseDto,
-} from 'generate/schemas';
+import { PostsControllerGetPostsParams, PostsPaginateResponseDto } from 'generate/schemas';
 
-export const useInfinitePosts = (
-  initialParams: Omit<PostsControllerGetPostsParams, 'page'>
-) => {
+export const useInfinitePosts = (initialParams: Omit<PostsControllerGetPostsParams, 'page'>) => {
   return useInfiniteQuery<PostsPaginateResponseDto>({
     queryKey: ['postsControllerGetPosts', initialParams],
     queryFn: ({ pageParam }: QueryFunctionContext<any, number | undefined>) => {
@@ -17,7 +12,7 @@ export const useInfinitePosts = (
       });
     },
     initialPageParam: undefined,
-    getNextPageParam: (lastPage) => {
+    getNextPageParam: lastPage => {
       return lastPage.cursor?.after ?? undefined;
     },
   });

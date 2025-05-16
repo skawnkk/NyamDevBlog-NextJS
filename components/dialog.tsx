@@ -1,7 +1,8 @@
-import { useOutsideClick } from '@/lib/utils/outside-click';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { useRouter } from 'next/navigation';
 import { PropsWithChildren } from 'react';
+
+import { useOutsideClick } from '@/lib/utils/outside-click';
 
 interface BasicDialogProps {}
 

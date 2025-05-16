@@ -16,6 +16,7 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  AccessTokenDto,
   CreateUserDto
 } from '../../schemas';
 
@@ -28,6 +29,9 @@ type AwaitedInput<T> = PromiseLike<T> | T;
 
 
 
+/**
+ * @summary Access Token 재발급 (헤더로 refresh 토큰 전달)
+ */
 export const authControllerPostTokenAccess = (
     
  signal?: AbortSignal
@@ -71,7 +75,10 @@ const {mutation: mutationOptions} = options ?
     
     export type AuthControllerPostTokenAccessMutationError = unknown
 
-    export const useAuthControllerPostTokenAccess = <TError = unknown,
+    /**
+ * @summary Access Token 재발급 (헤더로 refresh 토큰 전달)
+ */
+export const useAuthControllerPostTokenAccess = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerPostTokenAccess>>, TError,void, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof authControllerPostTokenAccess>>,
@@ -84,7 +91,10 @@ const {mutation: mutationOptions} = options ?
 
       return useMutation(mutationOptions , queryClient);
     }
-    export const authControllerPostRefreshAccess = (
+    /**
+ * @summary Refresh Token 재발급 (쿠키 기반)
+ */
+export const authControllerPostRefreshAccess = (
     
  signal?: AbortSignal
 ) => {
@@ -127,7 +137,10 @@ const {mutation: mutationOptions} = options ?
     
     export type AuthControllerPostRefreshAccessMutationError = unknown
 
-    export const useAuthControllerPostRefreshAccess = <TError = unknown,
+    /**
+ * @summary Refresh Token 재발급 (쿠키 기반)
+ */
+export const useAuthControllerPostRefreshAccess = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerPostRefreshAccess>>, TError,void, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof authControllerPostRefreshAccess>>,
@@ -140,13 +153,16 @@ const {mutation: mutationOptions} = options ?
 
       return useMutation(mutationOptions , queryClient);
     }
-    export const authControllerPostLoginWithEmail = (
+    /**
+ * @summary 이메일 로그인 (accessToken + refreshToken 쿠키로 반환)
+ */
+export const authControllerPostLoginWithEmail = (
     
  signal?: AbortSignal
 ) => {
       
       
-      return axiosInstance<void>(
+      return axiosInstance<AccessTokenDto>(
       {url: `/auth/login/email`, method: 'POST', signal
     },
       );
@@ -183,7 +199,10 @@ const {mutation: mutationOptions} = options ?
     
     export type AuthControllerPostLoginWithEmailMutationError = unknown
 
-    export const useAuthControllerPostLoginWithEmail = <TError = unknown,
+    /**
+ * @summary 이메일 로그인 (accessToken + refreshToken 쿠키로 반환)
+ */
+export const useAuthControllerPostLoginWithEmail = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerPostLoginWithEmail>>, TError,void, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof authControllerPostLoginWithEmail>>,
@@ -196,7 +215,10 @@ const {mutation: mutationOptions} = options ?
 
       return useMutation(mutationOptions , queryClient);
     }
-    export const authControllerPostRegisterWithEmail = (
+    /**
+ * @summary 이메일 회원가입
+ */
+export const authControllerPostRegisterWithEmail = (
     createUserDto: CreateUserDto,
  signal?: AbortSignal
 ) => {
@@ -241,7 +263,10 @@ const {mutation: mutationOptions} = options ?
     export type AuthControllerPostRegisterWithEmailMutationBody = CreateUserDto
     export type AuthControllerPostRegisterWithEmailMutationError = unknown
 
-    export const useAuthControllerPostRegisterWithEmail = <TError = unknown,
+    /**
+ * @summary 이메일 회원가입
+ */
+export const useAuthControllerPostRegisterWithEmail = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerPostRegisterWithEmail>>, TError,{data: CreateUserDto}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof authControllerPostRegisterWithEmail>>,
