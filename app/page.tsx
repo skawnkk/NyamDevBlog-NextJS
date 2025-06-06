@@ -1,4 +1,4 @@
-import { PostList } from './posts/post-list';
+import { PostList } from '@/features/post';
 
 export default function Page() {
   return <PostList />;

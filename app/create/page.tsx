@@ -1,13 +1,12 @@
 'use client';
 
 import { TextArea } from '@radix-ui/themes';
-import { usePostsControllerPostPosts } from 'generate/apis/posts/posts';
 import { atom, useAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent } from 'react';
 
-import { DragDropItem, FileUploader } from '@/components/file-uploader';
-import { Input } from '@/components/input';
+import { usePostsControllerPostPosts } from '@/shared/generate/apis';
+import { DragDropItem, FileUploader, Input } from '@/shared/ui';
 import { Button } from '@/styles/components/ui/button';
 
 const files = atom<DragDropItem[]>([]);

@@ -6,11 +6,8 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(
-  (config) => {
-    const token =
-      typeof window !== 'undefined'
-        ? localStorage.getItem('accessToken')
-        : null;
+  config => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
 
     if (token) {
       config.headers = config.headers || {};
@@ -19,15 +16,15 @@ instance.interceptors.request.use(
 
     return config;
   },
-  (error) => {
+  error => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // 3. 응답(Response) 인터셉터: 401 오류 자동 처리
 instance.interceptors.response.use(
-  (response) => response,
-  async (error) => {
+  response => response,
+  async error => {
     if (error.response?.status === 401) {
       console.error('401 에러 - 인증 만료 또는 로그인 필요');
 
@@ -38,9 +35,7 @@ instance.interceptors.response.use(
         const newAccessToken = data.accessToken;
         localStorage.setItem('accessToken', newAccessToken);
 
-        instance.defaults.headers.common[
-          'Authorization'
-        ] = `Bearer ${newAccessToken}`;
+        instance.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
 
         const originalRequest = error.config;
 
@@ -52,7 +47,7 @@ instance.interceptors.response.use(
         return Promise.reject(refreshError);
       }
     }
-  }
+  },
 );
 
 export async function axiosInstance<TData = any>(config: AxiosRequestConfig) {

@@ -1,6 +1,6 @@
 'use client';
 
-import { PostList } from './post-list';
+import { PostList } from '@/features/post';
 
 export default function PostsPage() {
   return <PostList />;

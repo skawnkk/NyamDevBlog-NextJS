@@ -5,7 +5,7 @@ import type { Metadata, Viewport } from 'next';
 import { Manrope } from 'next/font/google';
 import { ReactNode } from 'react';
 
-import BottomNavigation from '@/components/navigation';
+import { BottomNavigation } from '@/shared/ui';
 
 import { QueryProvider } from './providers/query-provider';
 

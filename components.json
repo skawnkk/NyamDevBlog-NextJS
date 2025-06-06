@@ -11,11 +11,9 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "@/styles/components",
-    "utils": "@/lib/utils",
-    "ui": "@/styles/components/ui",
-    "lib": "@/lib",
-    "hooks": "@/lib/hooks"
+    "components": "@/shared/ui",
+    "utils": "@/shared/utils",
+    "ui": "@/shared/ui"
   },
   "iconLibrary": "lucide"
 }

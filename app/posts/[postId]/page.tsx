@@ -1,18 +1,13 @@
 'use client';
 
 import { ChatBubbleIcon } from '@radix-ui/react-icons';
-import { usePostsControllerGetPost } from 'generate/apis/posts/posts';
 import { useParams } from 'next/navigation';
 
-import { AuthorInfo } from '@/components/author-info';
-import { BottomSheet } from '@/components/bottom-sheet';
-import { BasicCarousel } from '@/components/carousel';
-import { BasicImage } from '@/components/image';
-import { POST_HEIGHT, POST_WIDTH } from '@/lib/const';
-
-import { useInfiniteComments } from './action';
-import { CommentInput } from './comment-input';
-import { CommentList } from './comment-list';
+import { POST_HEIGHT, POST_WIDTH } from '@/entities/post';
+import { useInfiniteComments } from '@/features/comment/action';
+import { CommentInput, CommentList } from '@/features/comment/ui';
+import { usePostsControllerGetPost } from '@/shared/generate/apis';
+import { AuthorInfo, BasicCarousel, BasicImage, BottomSheet } from '@/shared/ui';
 
 export default function PostDetailPage() {
   const { postId } = useParams<{ postId: string }>();

@@ -1,4 +1,4 @@
-export default {
+const nextConfig = {
   reactStrictMode: true,
   experimental: {
     turbo: true,
@@ -7,3 +7,5 @@ export default {
     domains: ['picsum.photos', 'localhost'],
   },
 };
+
+export default nextConfig;

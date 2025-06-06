@@ -2,9 +2,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@/shared/*": ["shared/*"],
       "@/styles/*": ["styles/*"],
       "@/lib/*": ["lib/*"],
-      "@/components/*": ["components/*"]
+      "@/components/*": ["shared/ui/*"],
+      "@/entities/*": ["entities/*"],
+      "@/features/*": ["features/*"]
     },
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],

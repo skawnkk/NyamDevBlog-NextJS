@@ -6202,7 +6202,7 @@ ora@^6.1.2:
     strip-ansi "^7.0.1"
     wcwidth "^1.0.1"
 
-orval@^7.9.0:
+orval@^8.0.0:
   version "7.9.0"
   resolved "https://registry.yarnpkg.com/orval/-/orval-7.9.0.tgz#31530c66ce0387886457efcd295fbd679819b8e4"
   integrity sha512-kFftcVojM4wRddRktqJPI/P9uYRpgiwCFOxF82G7XqDrczX9XDu8b5ialof+Z1LIuVZL4CvLV0Y184mRgrJrUA==

@@ -13,7 +13,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "next lint",
-    "orval:generate": "orval --config orval.config.ts && && prettier --write ./generate",
+    "orval:generate": "orval --config orval.config.ts",
     "orval:watch": "orval --config orval.config.ts --watch",
     "prepare": "husky install"
   },
