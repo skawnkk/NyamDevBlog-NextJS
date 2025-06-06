@@ -3,50 +3,40 @@
 import { CircleIcon, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useActionState, useEffect, useState } from 'react';
+import { useActionState, useEffect } from 'react';
 
-import { Input } from '@/components/input';
-import { Label } from '@/components/label';
-import { ActionState } from '@/lib/utils/middleware';
+import { Input, Label } from '@/shared/ui';
 import { Button } from '@/styles/components/ui/button';
 
-import { signIn, signUp } from './actions';
+export type LoginFormInputs = {
+  nickname?: string;
+  email?: string;
+  password?: string;
+  error?: string;
+  redirectTo?: string;
+};
+
+type FormAction = (props: LoginFormInputs) => Promise<LoginFormInputs>;
 
 interface LoginFormProps {
   mode: 'signin' | 'signup';
-  callback: ({ email, password }: any) => void;
+  callback: FormAction;
 }
+
 export function LoginForm({ mode, callback }: LoginFormProps) {
   const router = useRouter();
   const isSignUpMode = mode === 'signup';
   const signText = isSignUpMode ? '가입하기' : '로그인하기';
 
-  const [state, formAction, pending] = useActionState<ActionState, FormData>(
-    isSignUpMode ? signUp : signIn,
-    { error: '' },
-  );
+  const [state, formAction, pending] = useActionState<LoginFormInputs>(callback, {});
 
-  // useEffect(() => {
-  //   if (state?.redirectTo) {
-  //     router.push(state.redirectTo);
-  //   }
-  // }, [state, router]);
+  useEffect(() => {
+    if (!state.redirectTo) {
+      return;
+    }
 
-  // useEffect(() => {
-  //   if (state?.accessToken) {
-  //     localStorage.setItem('accessToken', state.accessToken);
-  //   }
-  // }, [state]);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const nickname = formData.get('nickname');
-    const email = formData.get('email');
-    const password = formData.get('password');
-
-    isSignUpMode ? signUp : callback({ email, password });
-  };
+    router.replace(state.redirectTo);
+  }, [router, state.redirectTo]);
 
   return (
     <div className="min-h-[100dvh] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
@@ -58,7 +48,7 @@ export function LoginForm({ mode, callback }: LoginFormProps) {
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <form className="space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-6" action={formAction}>
           {/* <input type="hidden" name="redirect" value={redirect || ''} />
           <input type="hidden" name="priceId" value={priceId || ''} />
           <input type="hidden" name="inviteId" value={inviteId || ''} /> */}
@@ -67,7 +57,6 @@ export function LoginForm({ mode, callback }: LoginFormProps) {
               <Label htmlFor="nickname" className="block text-sm font-medium text-gray-700">
                 Nickname
               </Label>
-
               <div className="mt-1">
                 <Input
                   id="nickname"
@@ -83,6 +72,7 @@ export function LoginForm({ mode, callback }: LoginFormProps) {
               </div>
             </div>
           )}
+
           <div>
             <Label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email

@@ -1,13 +1,10 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { Suspense } from 'react';
 
 import { LoginForm } from '../login-form';
 
 export default function SignInPage() {
-  const router = useRouter();
-
   const handleLogin = async ({ email, password }) => {
     const basicAuth = btoa(`${email}:${password}`); // base64 인코딩
     try {
@@ -29,8 +26,7 @@ export default function SignInPage() {
       }
 
       localStorage.setItem('accessToken', result.accessToken);
-      router.push('/');
-      // return { redirectTo: '/', accessToken: result.accessToken };
+      return { redirectTo: '/' };
     } catch (e) {
       return { error: '서버 에러가 발생했습니다.', email };
     }
