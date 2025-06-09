@@ -5,18 +5,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useActionState, useEffect } from 'react';
 
+import { LoginFormInputs } from '@/entities/auth';
 import { Input, Label } from '@/shared/ui';
 import { Button } from '@/styles/components/ui/button';
 
-export type LoginFormInputs = {
-  nickname?: string;
-  email?: string;
-  password?: string;
-  error?: string;
-  redirectTo?: string;
-};
-
-type FormAction = (props: LoginFormInputs) => Promise<LoginFormInputs>;
+type FormAction = (state: LoginFormInputs, formData: FormData) => Promise<LoginFormInputs>;
 
 interface LoginFormProps {
   mode: 'signin' | 'signup';
@@ -28,7 +21,7 @@ export function LoginForm({ mode, callback }: LoginFormProps) {
   const isSignUpMode = mode === 'signup';
   const signText = isSignUpMode ? '가입하기' : '로그인하기';
 
-  const [state, formAction, pending] = useActionState<LoginFormInputs>(callback, {});
+  const [state, formAction, pending] = useActionState<LoginFormInputs, FormData>(callback, {});
 
   useEffect(() => {
     if (!state.redirectTo) {

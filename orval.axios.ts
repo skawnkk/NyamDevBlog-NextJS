@@ -33,7 +33,6 @@ instance.interceptors.response.use(
         const response = await instance.post('/auth/token/accessToken');
         const { data } = response;
         const newAccessToken = data.accessToken;
-        localStorage.setItem('accessToken', newAccessToken);
 
         instance.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
 
