@@ -1,13 +1,12 @@
 'use client';
 
-import { Card } from '@radix-ui/themes';
 import { ChangeEvent, PropsWithChildren, RefObject, useCallback, useRef, useState } from 'react';
 import { cn } from 'shared/utils/cn';
 
 import { useCommonControllerPostImage } from '@/shared/generate/apis';
-import { BasicCarousel } from '@/shared/ui/carousel';
-import { Button } from '@/styles/components/ui/button';
 
+import { BasicCarousel } from '../basic-carousel';
+import { Button } from '../button';
 import { PreviewImage } from '../preview-image';
 import { FileControl } from './file-control';
 

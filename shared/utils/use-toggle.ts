@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 
-interface UseToggleDialogProps {
+interface UseToggleProps {
   defaultOpen?: boolean;
 }
-export const useToggleDialog = ({ defaultOpen = false }: UseToggleDialogProps) => {
+
+export const useToggle = ({ defaultOpen = false }: UseToggleProps) => {
   const [open, setOpen] = useState(defaultOpen);
 
   const toggleOpen = () => setOpen(prev => !prev);

@@ -1,7 +1,5 @@
 import { LayersIcon, PlusCircledIcon } from '@radix-ui/react-icons';
-import { cn } from 'shared/utils/cn';
-import { useOutsideClick } from 'shared/utils/outside-click';
-import { useToggleDialog } from 'shared/utils/toggle-dialog';
+import { cn, useToggle, useOutsideClick } from 'shared/utils';
 
 import { DragDrop } from '../drag-drop';
 import { FilePreviewImage } from './file-preview-image';
@@ -14,7 +12,7 @@ interface FileControlProps {
 }
 
 export const FileControl = ({ items, onChange, onUploadClick }: FileControlProps) => {
-  const { open, toggleOpen } = useToggleDialog({ defaultOpen: false });
+  const { open, toggleOpen } = useToggle({ defaultOpen: false });
   const ref = useOutsideClick<HTMLDivElement>(toggleOpen, open);
 
   if (!items.length) {
