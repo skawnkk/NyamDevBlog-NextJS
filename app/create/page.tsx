@@ -6,8 +6,7 @@ import { useRouter } from 'next/navigation';
 import { ChangeEvent } from 'react';
 
 import { usePostsControllerPostPosts } from '@/shared/generate/apis';
-import { DragDropItem, FileUploader, Input } from '@/shared/ui';
-import { Button } from '@/styles/components/ui/button';
+import { Button, DragDropItem, FileUploader, Input } from '@/shared/ui';
 
 const files = atom<DragDropItem[]>([]);
 const contents = atom<string>('');

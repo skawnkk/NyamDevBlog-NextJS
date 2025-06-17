@@ -6,12 +6,15 @@ import {
 
 import { commentsControllerPaginateComments } from '@/shared/generate/apis/comments';
 
+export const queryKey = (intialParams: Omit<CommentsControllerPaginateCommentsParams, 'page'>) => {
+  return ['postsControllerGetPosts', intialParams];
+};
 export const useInfiniteComments = (
   postId: number,
   initialParams: Omit<CommentsControllerPaginateCommentsParams, 'page'>,
 ) => {
   return useInfiniteQuery<CommentsPaginateResponseDto>({
-    queryKey: ['postsControllerGetPosts', initialParams],
+    queryKey: queryKey(initialParams),
     queryFn: ({ pageParam }: QueryFunctionContext<any, number | undefined>) => {
       return commentsControllerPaginateComments(postId, {
         ...initialParams,

@@ -15,7 +15,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
   maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
 };
 
 const manrope = Manrope({ subsets: ['latin'] });
@@ -34,8 +38,8 @@ export default function RootLayout({ children, modal }: RootLayoutProps) {
       <body className="min-h-[100dvh] bg-gray-50">
         <Theme>
           <QueryProvider>
-            <div className="relative h-[calc(100vh - 65px)] w-full">
-              <div className="p-4 pb-[65px] w-full">{children}</div>
+            <div className="relative min-h-[100dvh] w-full">
+              <div className="p-2 sm:p-4 pb-[65px] w-full">{children}</div>
             </div>
             {modal}
             <BottomNavigation />

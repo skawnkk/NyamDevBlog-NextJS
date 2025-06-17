@@ -1,22 +1,26 @@
 import { PaperPlaneIcon } from '@radix-ui/react-icons';
 import { Button } from '@radix-ui/themes';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { useCommentsControllerPostComment } from '@/shared/generate/apis';
 import { AuthorInfo, Input } from '@/shared/ui';
 
+import { queryKey } from '../action';
+
 interface CommentInputProps {
   postId: string;
-  onSubmit: () => void;
 }
 
-export function CommentInput({ postId, onSubmit }: CommentInputProps) {
+export function CommentInput({ postId }: CommentInputProps) {
   const [comments, setComments] = useState('');
+
   const { mutate } = useCommentsControllerPostComment();
+  const queryClient = useQueryClient();
 
   const handleInput = e => setComments(e.target.value);
-
-  const handleSubmit = () => {
+  const handleSubmit = e => {
+    e.preventDefault();
     mutate(
       {
         postId: +postId,
@@ -25,7 +29,7 @@ export function CommentInput({ postId, onSubmit }: CommentInputProps) {
       {
         onSuccess: () => {
           setComments('');
-          onSubmit();
+          queryClient.invalidateQueries({ queryKey: queryKey({ take: 20 }) });
         },
       },
     );
@@ -36,7 +40,7 @@ export function CommentInput({ postId, onSubmit }: CommentInputProps) {
       <AuthorInfo />
       {/* //TODO: 로그인사용자의 프로필 노출 */}
       <Input value={comments} onChange={handleInput} placeholder="회원님의 생각을 남겨보세요." />
-      <Button type="submit" className="cursor-pointer" onClick={handleSubmit}>
+      <Button type="submit" className="cursor-pointer">
         <PaperPlaneIcon />
       </Button>
     </form>
