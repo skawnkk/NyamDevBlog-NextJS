@@ -8,5 +8,6 @@ export type LoginFormInputs = {
 
 export type AuthResponse = {
   accessToken: string;
+  refreshToken: string;
   message?: string;
 };

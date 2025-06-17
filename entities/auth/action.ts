@@ -1,5 +1,8 @@
 'use server';
 
+import { cookies } from 'next/headers';
+
+import { instance } from '../../orval.axios';
 import { AuthResponse, LoginFormInputs } from './types';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -12,7 +15,23 @@ const handleAuthError = (
   return { error: result.message || defaultMessage, ...data };
 };
 
-const handleAuthSuccess = (result: AuthResponse) => {
+const handleAuthSuccess = async (result: AuthResponse) => {
+  const cookieStore = await cookies();
+
+  cookieStore.set('accessToken', result.accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/',
+  });
+
+  cookieStore.set('refreshToken', result.refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/',
+  });
+
   return { redirectTo: '/' };
 };
 
@@ -34,7 +53,7 @@ export const signIn = async (_, formData: FormData) => {
     });
 
     const result = await res.json();
-    console.log(result);
+
     if (!res.ok) {
       return handleAuthError(result, '로그인 실패', { email });
     }

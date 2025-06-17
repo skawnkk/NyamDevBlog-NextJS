@@ -6,8 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useActionState, useEffect } from 'react';
 
 import { LoginFormInputs } from '@/entities/auth';
-import { Input, Label } from '@/shared/ui';
-import { Button } from '@/styles/components/ui/button';
+import { Button, Input, Label } from '@/shared/ui';
 
 type FormAction = (state: LoginFormInputs, formData: FormData) => Promise<LoginFormInputs>;
 
@@ -32,16 +31,18 @@ export function LoginForm({ mode, callback }: LoginFormProps) {
   }, [router, state.redirectTo]);
 
   return (
-    <div className="min-h-[100dvh] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+    <div className="min-h-[100dvh] flex flex-col justify-center py-6 px-4 sm:py-12 sm:px-6 lg:px-8 bg-gray-50">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
-          <CircleIcon className="h-12 w-12 text-orange-500" />
+          <CircleIcon className="h-10 w-10 sm:h-12 sm:w-12 text-orange-500" />
         </div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">{signText}</h2>
+        <h2 className="mt-4 sm:mt-6 text-center text-2xl sm:text-3xl font-extrabold text-gray-900">
+          {signText}
+        </h2>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <form className="space-y-6" action={formAction}>
+      <div className="mt-6 sm:mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <form className="space-y-4 sm:space-y-6" action={formAction}>
           {/* <input type="hidden" name="redirect" value={redirect || ''} />
           <input type="hidden" name="priceId" value={priceId || ''} />
           <input type="hidden" name="inviteId" value={inviteId || ''} /> */}
@@ -59,7 +60,7 @@ export function LoginForm({ mode, callback }: LoginFormProps) {
                   defaultValue={state.nickname}
                   required
                   maxLength={50}
-                  className="appearance-none rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-full relative block w-full px-3 py-2 text-base sm:text-sm border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10"
                   placeholder="Enter your nickname"
                 />
               </div>
@@ -79,7 +80,7 @@ export function LoginForm({ mode, callback }: LoginFormProps) {
                 defaultValue={state.email}
                 required
                 maxLength={50}
-                className="appearance-none rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-full relative block w-full px-3 py-2 text-base sm:text-sm border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10"
                 placeholder="Enter your email"
               />
             </div>
@@ -99,7 +100,7 @@ export function LoginForm({ mode, callback }: LoginFormProps) {
                 required
                 minLength={8}
                 maxLength={100}
-                className="appearance-none rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-full relative block w-full px-3 py-2 text-base sm:text-sm border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10"
                 placeholder="Enter your password"
               />
             </div>
@@ -110,7 +111,7 @@ export function LoginForm({ mode, callback }: LoginFormProps) {
           <div>
             <Button
               type="submit"
-              className="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+              className="w-full flex justify-center items-center py-2.5 px-4 border border-transparent rounded-full shadow-sm text-base sm:text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
               disabled={pending}
             >
               {pending ? (
@@ -125,7 +126,7 @@ export function LoginForm({ mode, callback }: LoginFormProps) {
           </div>
         </form>
 
-        <div className="mt-6">
+        <div className="mt-4 sm:mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300" />
@@ -135,7 +136,7 @@ export function LoginForm({ mode, callback }: LoginFormProps) {
                 href={`${isSignUpMode ? '/sign-in' : '/sign-up'}`}
                 // ${redirect ? `?redirect=${redirect}` : ''
                 // }${priceId ? `&priceId=${priceId}` : ''}`}
-                className="px-2 bg-gray-50 text-gray-500"
+                className="px-2 bg-gray-50 text-gray-500 text-sm"
               >
                 {isSignUpMode ? 'Already have an account?' : 'Create an account'}
               </Link>

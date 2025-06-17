@@ -1,19 +1,12 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-const instance = axios.create({
+export const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
   withCredentials: true,
 });
 
 instance.interceptors.request.use(
   config => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
-
-    if (token) {
-      config.headers = config.headers || {};
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
     return config;
   },
   error => {
@@ -29,8 +22,7 @@ instance.interceptors.response.use(
       console.error('401 에러 - 인증 만료 또는 로그인 필요');
 
       try {
-        //✅ 리프레시 요청 (쿠키로 refreshToken 전송됨)
-        const response = await instance.post('/auth/token/accessToken');
+        const response = await instance.post('/auth/token/refresh');
         const { data } = response;
         const newAccessToken = data.accessToken;
 
